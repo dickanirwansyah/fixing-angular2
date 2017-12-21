@@ -1,5 +1,12 @@
-# Belajar Angular
+# Belajar Angular2
 
 # Referensi link
 
-[https://valor-software.com/ngx-bootstrap/#/getting-started]
+# Angular Modal
+[https://valor-software.com/ngx-bootstrap/#/modals]
+
+# Angular Paging
+[https://github.com/michaelbromley/ngx-pagination]
+
+# Server Side
+[https://github.com/dickanirwansyah/springboot-ok]
