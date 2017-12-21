@@ -37,6 +37,39 @@ export class CatalogComponent implements OnInit {
     this.requestProcessing = true;
   }
 
+  //handling submited update or insert
+  onSubmitedCatalog(){
+      this.processValidation = true;
+      if(this.catalForm.invalid){
+          return;
+      }
+      this.preProcessConfiguration();
+      let name = this.catalForm.get('name').value.trim();
+      if(this.IdCatalogToUpdate === null){
+          let catalog = new Catalog(null, name);
+          this.catalogservices.getServicesPostCatalog(catalog)
+          .subscribe(successCode => {
+            this.statusCode = successCode;
+            this.findAllCatalogs();
+            this.modalref.hide();
+            this.IdCatalogToUpdate = null;
+            this.catalForm.reset();
+            this.processValidation = false;
+          }, errorCode => this.statusCode = errorCode);
+      }else{
+        let catalog = new Catalog(this.IdCatalogToUpdate, name);
+        this.catalogservices.getServicesPostForUpdateCatalog(catalog)
+        .subscribe(successCode => {
+          this.statusCode = successCode;
+          this.IdCatalogToUpdate = null;
+          this.catalForm.reset();
+          this.modalref.hide();
+          this.findAllCatalogs();
+          this.processValidation = false;
+        }, errorCode => this.statusCode = errorCode)
+      }
+  }
+
   constructor(private modalservice: BsModalService, private catalogservices: CatalogService, private router: Router){
     //paging
     for (let i = 1; i<=100; i++){
