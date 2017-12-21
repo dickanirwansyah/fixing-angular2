@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="container-fluid">
+    <div class="page-header">
+      <h3>{{titleForm}}</h3>
+    </div>
+    <form class="form-horizontal" (ngSubmit)="onSubmitedCatalog()" [formGroup]="catalogForm">
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Name Catalog:</label>
+        <div class="col-lg-6">
+          <input type="text" class="form-control" formControlName="name" placeholder="Name Of Catalog"/>
+          <!--validated-->
+          <label *ngIf="catalogForm.get('name').invalid && processValidation" [ngClass]="'error'"
+          style="color: crimson">Please enter the name of catalog !</label>
+        </div>
+      </div>
+      <div class="col-lg-offset-4">
+        <button *ngIf="!IdCatalogToUpdate" class="btn btn-primary">
+          <span class="glyphicon glyphicon-save"></span>
+          Save
+        </button>
+        <button *ngIf="IdCatalogToUpdate" class="btn btn-success">
+          <span class="glyphicon glyphicon-pencil"></span>
+          Update
+        </button>
+        <a routerLink="/catalog" class="btn btn-default">
+          <span class="glyphicon glyphicon-refresh"></span>
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
