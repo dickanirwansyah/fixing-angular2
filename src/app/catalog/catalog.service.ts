@@ -12,6 +12,7 @@ export class CatalogService {
   URI_LIST_CATALOG = "http://localhost:8080/data/api/catalogs";
   URI_INSERT_CATALOG = "http://localhost:8080/data/api/insertCatalog";
   URI_GET_BYID = "http://localhost:8080/data/api/catalogs/";
+  URI_UPDATE_CATALOG = "http://localhost:8080/data/api/updateCatalog";
 
   constructor(
     private http:Http
@@ -51,6 +52,13 @@ export class CatalogService {
       let options = new RequestOptions({headers: cpHeaders});
       return this.http.post(this.URI_INSERT_CATALOG, catalog, options)
       .map(success => success.status).catch(this.getHandlingError);
+  }
+
+  getServicesPostForUpdateCatalog(catalog: Catalog):Observable<number>{
+    let cpHeaders = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: cpHeaders});
+    return this.http.post(this.URI_UPDATE_CATALOG, catalog, options)
+    .map(successCode => successCode.status).catch(this.getHandlingError);
   }
 
 }
