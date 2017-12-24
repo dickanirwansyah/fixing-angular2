@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { CategoryService } from './category.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { Category } from './Category';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -16,10 +18,11 @@ export class CategoryComponent implements OnInit {
   requestProcessing = false;
   IdCategoryToUpdate = null;
   processValidation = false;
+  modalref: BsModalRef;
 
   p: number =1;
 
-  constructor(private categoryService: CategoryService){
+  constructor(private categoryService: CategoryService, private modalService:BsModalService){
     for(let i=0; i<=100; i++){
         this.categorys.push();
     }
@@ -27,6 +30,12 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit():void {
     this.getListComponentCategory()
+  }
+
+  //open modal template
+  openModal(template: TemplateRef<any>){
+      this.modalref = this.modalService.show(template);
+      this.categoryForm.reset();
   }
 
   //field category
@@ -65,7 +74,7 @@ export class CategoryComponent implements OnInit {
     this.preProcessConfigurations();
     let name = this.categoryForm.get('name').value.trim();
     let description = this.categoryForm.get('description').value.trim();
-    let active = this.categoryForm.get('active') == null;
+    let active = this.categoryForm.get('active').value;
 
     if(this.IdCategoryToUpdate === null){
       let category = new Category(null, name, description, active);
@@ -73,6 +82,7 @@ export class CategoryComponent implements OnInit {
       .subscribe(successCode => {
         this.statusCode = successCode;
         this.getListComponentCategory();
+        this.modalref.hide();
         this.backToCreateCategory();
       }, errorCode => this.statusCode = errorCode);
     }else{
@@ -81,6 +91,7 @@ export class CategoryComponent implements OnInit {
       .subscribe(successCode => {
         this.statusCode = successCode;
         this.getListComponentCategory();
+        this.modalref.hide();
         this.backToCreateCategory();
       }, errorCode => this.statusCode = errorCode);
     }
